@@ -4,7 +4,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme} from './components/themes';
-import "./app.css"
+import "./App.css"
 
 function App() {
   const [isDarkMode, setDarkMode] = useState(false);

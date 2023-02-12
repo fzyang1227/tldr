@@ -4,7 +4,7 @@ import { ThemeContext } from 'styled-components';
 import styled from "styled-components";
 import './content.css'
 
-const App2 = () => {
+const Content = () => {
     const theme = useContext(ThemeContext);
 
     const All = styled.div`
@@ -32,4 +32,4 @@ s;;fj;alsdf;adfdlfja;jdfja;fj;asljfd;lasjfd;ljf;lasjdf;ldjasdlfjalsdfkjadl;fj;al
     </All>
 )};
 
-export default App2
+export default Content
