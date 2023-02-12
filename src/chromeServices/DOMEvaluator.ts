@@ -1,8 +1,4 @@
 import { DOMMessage, DOMMessageResponse } from "../types";
-// @ts-ignore
-import * as smmry from "smmry";
-//@ts-ignore
-import * as rp from "require-promise";
 //@ts-ignore
 import axios from "axios";
 //@ts-ignore
