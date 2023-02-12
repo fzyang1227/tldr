@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import App2 from './components/app';
+import Content from './components/content';
 import Header from './components/header';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme} from './components/themes';
@@ -15,17 +15,21 @@ function App() {
     // console.log(isDarkMode);
   }
 
+  const Toggle = () => (
+    <div>
+      <h1>Hello!</h1>
+      <button onClick={handleToggle}>
+          <span aria-label="Light mode" role="img">🌞</span>
+      </button>
+    </div>
+    )
+
   return (
     <div>
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <Header title="tl;dr" isDark={isDarkMode} rightIcon="fas fa-gear fa-1x"/>
-        <App2/ >
-        <div>
-          <h1>Hello!</h1>
-          <button onClick={handleToggle}>
-              <span aria-label="Light mode" role="img">🌞</span>
-          </button>
-        </div>
+        <Content/ >
+        <Toggle/>
       </ThemeProvider>
     </div> 
   );
