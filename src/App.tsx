@@ -25,17 +25,17 @@ function App() {
       );
   });
 
+  //  chrome.tabs.query({active: true, currentWindow: true}).then((data) => data.)
+
   return (
     <div className="App">
-      <h1>SEO Extension built with React!</h1>
+      <h1>{text}</h1>
 
       <ul className="SEOForm">
         <li className="SEOValidation">
           <div className="SEOValidationField">
-            <span className="SEOValidationFieldTitle">Title</span>
-            <span className="SEOValidationFieldStatus Error">
-              90 Characters
-            </span>
+            <span className="SEOValidationFieldTitle">peepee poopoo butt</span>
+            <span className="SEOValidationFieldStatus Error">{text}</span>
           </div>
           <div className="SEOVAlidationFieldValue">The title of the page</div>
         </li>

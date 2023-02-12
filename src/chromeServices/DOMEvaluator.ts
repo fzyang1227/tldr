@@ -5,30 +5,37 @@ const smmry = require("smmry")({
   SM_WITH_BREAK: true,
 });
 
+let summary = "";
+
 // Function called when a new message is received
 const messagesFromReactAppListener = (
   msg: DOMMessage,
   sender: chrome.runtime.MessageSender,
   sendResponse: (response: DOMMessageResponse) => void
 ) => {
-  let summary = "";
+  console.log(sender.url);
   smmry
     .summarizeURL(sender.url, {
       SM_LENGTH: 5,
     })
-    .then((data) => {
+    .then((data: string) => {
       summary = data;
       console.log(data);
+      const response: DOMMessageResponse = {
+        summary: summary,
+      };
+
+      sendResponse(response);
     });
 
   console.log("[content.js]. Message received", msg);
 
   // Prepare the response object with information about the site
-  const response: DOMMessageResponse = {
-    summary: summary,
-  };
+  // const response: DOMMessageResponse = {
+  //   summary: summary,
+  // };
 
-  sendResponse(response);
+  // sendResponse(response);
 };
 
 /**
