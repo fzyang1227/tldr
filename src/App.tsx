@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div>
-      <Header title="tl;dr" rightIcon="fas fa-gear"/>
+      <Header title="tl;dr" rightIcon="fas fa-gear" rightIconLink="settings.tsx"/>
       <App2/ >
     </div> 
   );
