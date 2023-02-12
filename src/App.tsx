@@ -1,11 +1,11 @@
-import React, { useState }from "react";
-import "./App.css"; 
+import React, { useState } from "react";
+import "./App.css";
 import messagesFromReactAppListener from "./chromeServices/DOMEvaluator";
 
 function App() {
-
   const [currUrl, setCurrUrl] = useState("");
   const [summary, setSummary] = useState("");
+  const [getSummary, setGetSummary] = useState(0);
 
   async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
@@ -14,25 +14,23 @@ function App() {
     return tab;
   }
 
-  getCurrentTab().then((tab) => {
-    setCurrUrl(tab.url as string)
-  });
+  if (getSummary < 1) {
+    console.log(getSummary);
 
-  // chrome.runtime.sendMessage(
-  //   {greeting: 'helo'}
-  // );
-
-  messagesFromReactAppListener(currUrl).then((response: any) => {
-    console.log('ah');
-    console.log(response);
-    setSummary(response.summary.data.sm_api_content)
-  });
+    getCurrentTab().then((tab) => {
+      setCurrUrl(tab.url as string);
+    });
+    messagesFromReactAppListener(currUrl).then((response: any) => {
+      console.log("ah");
+      console.log(response);
+      setSummary(response.summary.data.sm_api_content);
+    });
+    setGetSummary((getSummary) => getSummary + 1);
+  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        {summary}
-      </header>
+      <header className="App-header">{summary}</header>
     </div>
   );
 }
