@@ -11,6 +11,7 @@ const Header = (props: {title: String, isDark: boolean, rightIcon: string}) => {
       background-color: ${theme.headSelColor};
       font-weight: 600;
       font-size: 24px;
+      height: 50px;
     `
     const Right = styled.i`
       color: ${theme.primaryText};
