@@ -27,14 +27,14 @@ const defaultOptions = {
 };
 
 // Function called when a new message is received
-const messagesFromReactAppListener = (url: string) => {
+const messagesFromReactAppListener = (url: string, sentences: number) => {
   const opts = assignIn(defaultOptions); //options is another param i took out
 
   const query = buildQuery(
     assignIn(
       opts,
       {
-        SM_LENGTH: 4,
+        SM_LENGTH: sentences,
       },
       { SM_URL: url }
     )

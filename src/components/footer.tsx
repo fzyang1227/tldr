@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
+import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 
 const Footer = (props: {
@@ -27,6 +28,13 @@ const Footer = (props: {
     }
   `;
 
+  const inputProps = {
+    shrink: true,
+    style: {
+      color: theme.primaryText,
+    },
+  };
+
   const Bot = styled.div`
     font-size: 15px;
   `;
@@ -41,14 +49,13 @@ const Footer = (props: {
                 Summarize article # sentences:
               </label>
               <div className="col-3">
-                <Input
+                <TextField
+                  id="outlined-number"
                   type="number"
-                  className="form-control"
-                  id="sentences"
-                  min="1"
-                  max="30"
+                  inputProps={inputProps}
                   value={props.sentences}
                   onChange={props.onChangeValue}
+                  size="small"
                 />
               </div>
             </div>

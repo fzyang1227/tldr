@@ -13,31 +13,34 @@ function App() {
   const [shouldSummarize, setShouldSummarize] = useState(false);
   const [isDarkMode, setDarkMode] = useState(false);
   const [size, setSize] = useState("medium");
-  const [sentences, setSentences] = useState(7);
+  const [sentences, setSentences] = useState(4);
 
-  const handleChangeSize = (e: any) => {
-    setSize(e.target.value);
+  const handleChangeSentences = (e: any) => {
+    setSentences(e.target.value);
+    setShouldSummarize(false);
     callSummarize();
   };
 
   const callSummarize = () => {
     getCurrentTab().then((tab) => {
       let url = tab.url as string;
-
       chrome.storage.local.get([url]).then((result) => {
-        console.log(result);
-        console.log(result[url]);
-        if (typeof result[url] !== "undefined") {
+        if (
+          typeof result[url] !== "undefined" &&
+          result[url][1] === sentences
+        ) {
           console.log("local storage!");
-          setTitle(result[url].sm_api_title);
-          setSummary(result[url].sm_api_content);
+          setTitle(result[url][0].sm_api_title);
+          setSummary(result[url][0].sm_api_content);
         } else {
-          messagesFromReactAppListener(url).then((response: any) => {
+          messagesFromReactAppListener(url, sentences).then((response: any) => {
             const title = response.summary.data.sm_api_title;
             const summary = response.summary.data.sm_api_content;
             setTitle(title);
             setSummary(summary);
-            chrome.storage.local.set({ [url]: response.summary.data });
+            chrome.storage.local.set({
+              [url]: [response.summary.data, sentences],
+            });
           });
         }
       });
@@ -45,11 +48,11 @@ function App() {
     setShouldSummarize(true);
   };
 
-  let [tab]: chrome.tabs.Tab[] = [];
   async function getCurrentTab() {
-    let queryOptions = { active: true, lastFocusedWindow: true };
+    let queryOptions = { active: true, currentWindow: true };
     // tab will either be a tabs.Tab instance or undefined.
-    [tab] = await chrome.tabs.query(queryOptions);
+    let [tab] = await chrome.tabs.query(queryOptions);
+    console.log(tab);
     return tab;
   }
 
@@ -66,7 +69,7 @@ function App() {
           rightIcon="fas fa-gear fa-1x"
         />
         <Content title={title} body={summary} />
-        <Footer sentences={sentences} onChangeValue={handleChangeSize} />
+        <Footer sentences={sentences} onChangeValue={handleChangeSentences} />
       </ThemeProvider>
     </div>
   );
