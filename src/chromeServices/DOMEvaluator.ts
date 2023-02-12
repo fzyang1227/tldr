@@ -1,4 +1,8 @@
 import { DOMMessage, DOMMessageResponse } from "../types";
+// @ts-ignore
+import * as smmry from "smmry";
+
+let summary = "";
 
 // Function called when a new message is received
 const messagesFromReactAppListener = (
@@ -8,14 +12,13 @@ const messagesFromReactAppListener = (
 ) => {
   console.log("[content.js]. Message received", msg);
 
-  const headlines = Array.from(document.getElementsByTagName<"h1">("h1")).map(
-    (h1) => h1.innerText
-  );
+  smmry.summarizeURL(sender.url, {
+    SM_LENGTH: 5,
+  });
 
   // Prepare the response object with information about the site
   const response: DOMMessageResponse = {
-    title: document.title,
-    headlines,
+    summary: "",
   };
 
   sendResponse(response);
