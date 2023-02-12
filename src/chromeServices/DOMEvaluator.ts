@@ -11,24 +11,21 @@ const messagesFromReactAppListener = (
   sender: chrome.runtime.MessageSender,
   sendResponse: (response: DOMMessageResponse) => void
 ) => {
+  let summary = "";
   smmry
     .summarizeURL(sender.url, {
       SM_LENGTH: 5,
     })
     .then((data) => {
+      summary = data;
       console.log(data);
     });
 
   console.log("[content.js]. Message received", msg);
 
-  const headlines = Array.from(document.getElementsByTagName<"h1">("h1")).map(
-    (h1) => h1.innerText
-  );
-
   // Prepare the response object with information about the site
   const response: DOMMessageResponse = {
-    title: document.title,
-    headlines,
+    summary: summary,
   };
 
   sendResponse(response);
