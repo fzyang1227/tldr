@@ -1,27 +1,60 @@
-import { DOMMessage, DOMMessageResponse } from "../types";
+import { DOMMessageResponse } from "../types";
+//@ts-ignore
+import axios from "axios";
+//@ts-ignore
+import * as assignIn from "lodash.assignin";
+
+let summary = "";
+
+const API_URL = "https://api.smmry.com";
+
+const buildQuery = (query: any) =>
+  Object.keys(query).reduce((acc, val) => {
+    if (!query[val]) return acc;
+    return `${acc}${(acc && "&") || "?"}${val}=${query[val]}`;
+  }, "");
+
+const defaultOptions = {
+  SM_API_KEY: "FCFD97EE01",
+  SM_LENGTH: undefined,
+  SM_KEYWORD_COUNT: undefined,
+  SM_WITH_BREAK: undefined,
+  SM_WITH_ENCODE: undefined,
+  SM_IGNORE_LENGTH: undefined,
+  SM_QUOTE_AVOID: undefined,
+  SM_QUESTION_AVOID: undefined,
+  SM_EXCLAMATION_AVOID: undefined,
+};
 
 // Function called when a new message is received
-const messagesFromReactAppListener = (
-  msg: DOMMessage,
-  sender: chrome.runtime.MessageSender,
-  sendResponse: (response: DOMMessageResponse) => void
-) => {
-  console.log("[content.js]. Message received", msg);
+const messagesFromReactAppListener = (url: string) => {
+  const opts = assignIn(defaultOptions); //options is another param i took out
 
-  const headlines = Array.from(document.getElementsByTagName<"h1">("h1")).map(
-    (h1) => h1.innerText
+  const query = buildQuery(
+    assignIn(
+      opts,
+      {
+        SM_LENGTH: 4,
+      },
+      { SM_URL: url }
+    )
   );
-
-  // Prepare the response object with information about the site
-  const response: DOMMessageResponse = {
-    title: document.title,
-    headlines,
+  const rpOpts = {
+    method: "GET",
+    url: `${API_URL}${query}`,
   };
-
-  sendResponse(response);
+  return axios.request(rpOpts).then((data: any) => {
+    summary = data;
+    const response: DOMMessageResponse = {
+      summary: summary,
+    };
+    return response;
+  });
 };
 
 /**
  * Fired when a message is sent from either an extension process or a content script.
  */
-chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
+// chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
+
+export default messagesFromReactAppListener;
