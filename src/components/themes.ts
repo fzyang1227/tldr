@@ -1,13 +1,24 @@
-export const lightTheme = {
-    body: '#FFF',
-    text: '#072450',
-    toggleBorder: '#FFF',
-    background: '#363537',
-    background2: '#EDCEA9'
+import { DefaultTheme } from "styled-components";
+
+declare module "styled-components" {
+  export interface DefaultTheme {
+    headSelColor: string;
+    bodyColor: string;
+    boxColor: string;
+    primaryText: string;
+  }
 }
-export const darkTheme = {
-    body: '#363537',
-    text: '#FAFAFA',
-    toggleBorder: '#6B8096',
-    background: '#999',
-}
+
+export const lightTheme: DefaultTheme = {
+	headSelColor: "#EDCEA9",
+	bodyColor: "#FAEAD7",
+  boxColor: "#EDCEA950",
+  primaryText: "#072450",
+};
+
+export const darkTheme: DefaultTheme = {
+	headSelColor: "#7185A3",
+	bodyColor: "#072450",
+  boxColor: "#7185A350",
+  primaryText: "#F8EDD3",
+};
