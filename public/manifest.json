@@ -4,21 +4,27 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-      "default_popup": "index.html",
-      "default_title": "Open the popup"
+    "default_popup": "index.html",
+    "default_title": "Open the popup"
   },
-  "permissions": [
-    "activeTab"
-  ],
+  "permissions": ["activeTab", "storage", "<all_urls>"],
   "content_scripts": [
     {
-        "matches": ["http://*/*", "https://*/*"],
-        "js": ["./static/js/content.js"]
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["./static/js/content.js"]
     }
   ],
+  "commands": {
+    "toggle": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "__MSG_toggle_extension__"
+    }
+  },
   "icons": {
-      "16": "logo192.png",
-      "48": "logo192.png",
-      "128": "logo192.png"
+    "16": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png"
   }
 }
