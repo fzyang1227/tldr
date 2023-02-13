@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Content from "./components/content";
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -6,20 +6,36 @@ import { lightTheme, darkTheme } from "./components/themes";
 import "./app.css";
 import { ThemeProvider } from "styled-components";
 import messagesFromReactAppListener from "./chromeServices/DOMEvaluator";
+import Settings from "./components/settings";
 
 function App() {
   const [summary, setSummary] = useState("");
   const [title, setTitle] = useState("");
-  const [shouldSummarize, setShouldSummarize] = useState(false);
+  const [shouldSummarize, setShouldSummarize] = useState(true);
+  const [isSettings, setIsSettings] = useState(false);
   const [isDarkMode, setDarkMode] = useState(false);
   const [size, setSize] = useState("medium");
   const [sentences, setSentences] = useState(4);
 
-  const handleChangeSentences = (e: any) => {
+  const handleChange = (e: any) => {
     setSentences(e.target.value);
-    setShouldSummarize(false);
+    setSize(e.target.value);
+    setShouldSummarize(true);
     callSummarize();
   };
+
+  const handleClickSettings = () => {
+    setIsSettings(!isSettings);
+  };
+
+  const handleClickDarkMode = () => {
+    setDarkMode(!isDarkMode);
+  };
+  // const handleChangeSize = (e: any) => {
+  //   setSize(e.target.value);
+  //   setShouldSummarize(false);
+  //   callSummarize();
+  // };
 
   const callSummarize = () => {
     getCurrentTab().then((tab) => {
@@ -45,7 +61,7 @@ function App() {
         }
       });
     });
-    setShouldSummarize(true);
+    setShouldSummarize(false);
   };
 
   async function getCurrentTab() {
@@ -56,9 +72,17 @@ function App() {
     return tab;
   }
 
-  if (!shouldSummarize) {
+  if (shouldSummarize) {
     callSummarize();
   }
+
+  console.log(isSettings);
+  const contentComponent = !isSettings ? (
+    <Content title={title} body={summary} fontSize={size} />
+  ) : (
+    <Settings size={size} onChangeValue={handleChange} />
+  );
+  console.log(isSettings);
 
   return (
     <div className="full">
@@ -66,10 +90,16 @@ function App() {
         <Header
           title="tl;dr"
           isDark={isDarkMode}
-          rightIcon="fas fa-gear fa-1x"
+          isSettings={isSettings}
+          settingsClicked={handleClickSettings}
+          darkModeClicked={handleClickDarkMode}
         />
-        <Content title={title} body={summary} />
-        <Footer sentences={sentences} onChangeValue={handleChangeSentences} />
+        {contentComponent}
+        <Footer
+          sentences={sentences}
+          onChangeValue={handleChange}
+          isSettings={isSettings}
+        />
       </ThemeProvider>
     </div>
   );

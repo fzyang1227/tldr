@@ -6,6 +6,7 @@ import styled from "styled-components";
 const Footer = (props: {
   sentences: number;
   onChangeValue: (e: any) => void;
+  isSettings: boolean;
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -39,29 +40,35 @@ const Footer = (props: {
     font-size: 15px;
   `;
 
+  const footerComponent = !props.isSettings ? (
+    <Bot>
+      <div className="px-1 container">
+        <form>
+          <div className="pt-2 row justify-between">
+            <label htmlFor="sentences" className="col-8 col-form-label">
+              Summarize article # sentences:
+            </label>
+            <div className="col-3">
+              <TextField
+                id="outlined-number"
+                type="number"
+                inputProps={inputProps}
+                value={props.sentences}
+                onChange={props.onChangeValue}
+                size="small"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </Bot>
+  ) : (
+    <Bot></Bot>
+  );
+
   return (
     <All className="px-2 sticky-bottom align-center">
-      <Bot>
-        <div className="px-1 container">
-          <form>
-            <div className="pt-2 row justify-between">
-              <label htmlFor="sentences" className="col-8 col-form-label">
-                Summarize article # sentences:
-              </label>
-              <div className="col-3">
-                <TextField
-                  id="outlined-number"
-                  type="number"
-                  inputProps={inputProps}
-                  value={props.sentences}
-                  onChange={props.onChangeValue}
-                  size="small"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      </Bot>
+      {footerComponent}
       Powered by Summry
     </All>
   );
