@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Footer = (props: {
   sentences: number;
   onChangeValue: (e: any) => void;
-  isSettings: boolean;
+  shouldDisplay: boolean;
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -18,29 +18,21 @@ const Footer = (props: {
     height: 60px;
     text-align: center;
   `;
-  const Input = styled.input`
-    color: ${theme.primaryText};
-    background-color: ${theme.bodyColor};
-    border: 1px solid ${theme.primaryText};
-    padding: 2px;
-    &:focus {
-      background-color: ${theme.bodyColor};
-      color: ${theme.primaryText};
-    }
-  `;
 
   const inputProps = {
     shrink: true,
     style: {
       color: theme.primaryText,
     },
+    min: 4,
+    max: 12,
   };
 
   const Bot = styled.div`
     font-size: 15px;
   `;
 
-  const footerComponent = !props.isSettings ? (
+  const footerComponent = !props.shouldDisplay ? (
     <Bot>
       <div className="px-1 container">
         <form>

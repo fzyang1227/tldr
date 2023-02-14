@@ -23,8 +23,6 @@ const Header = (props: {
     height: 50px;
   `;
 
-  console.log(props.isSettings);
-
   const rightIcon = !props.isSettings ? (
     <SettingsIcon style={{ color: theme.primaryText }} />
   ) : (
