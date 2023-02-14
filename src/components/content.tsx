@@ -28,7 +28,7 @@ const Content = (props: { title: string; body: string; fontSize: string }) => {
     flex: 0 1 auto;
     min-height: 390px;
     max-height: 390px;
-    overflow: scroll;
+    overflow-y: scroll;
     font-size: ${fontSize};
   `;
 
