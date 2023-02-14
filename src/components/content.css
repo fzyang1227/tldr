@@ -1,0 +1,8 @@
+.content-wrap {
+  overflow-wrap: break-word;
+}
+
+.form-control:focus {
+  border-color: none;
+  box-shadow: none;
+}
