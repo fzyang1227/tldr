@@ -19,9 +19,15 @@ function App() {
   const [sentences, setSentences] = useState(4);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: any) => {
-    setSentences(e.target.value);
-    setSize(e.target.value);
+  const handleChangeSentences = (e: any) => {
+    setSentences(+e.target.value);
+    setShouldSummarize(true);
+    setIsLoading(true);
+  };
+
+  const handleChangeSize = (e: any) => {
+    console.log(("changed size to " + e.target.value) as string);
+    setSize(e.target.value as string);
     setShouldSummarize(true);
     setIsLoading(true);
   };
@@ -34,6 +40,21 @@ function App() {
     setDarkMode(!isDarkMode);
   };
 
+  const fontSize = (size: string) => {
+    switch (size) {
+      case "small":
+        return 12;
+      case "medium":
+        return 14;
+      case "large":
+        return 16;
+      case "extra-large":
+        return 18;
+      default:
+        return 10;
+    }
+  };
+
   const callSummarize = () => {
     getCurrentTab().then((tab) => {
       let url = tab.url as string;
@@ -41,9 +62,9 @@ function App() {
       chrome.storage.local.get([key]).then((result) => {
         if (
           typeof result[key] !== "undefined" &&
-          parseInt(result[key][1], 10) === +sentences
+          parseInt(result[key][1], 10) === sentences
         ) {
-          console.log("local storage!");
+          //console.log("local storage!");
           setTitle(result[key][0].sm_api_title);
           setSummary(result[key][0].sm_api_content);
           setIsLoading(false);
@@ -79,11 +100,17 @@ function App() {
 
   let contentComponent: JSX.Element;
   if (isSettings) {
-    contentComponent = <Settings size={size} onChangeValue={handleChange} />;
+    console.log("set");
+    contentComponent = (
+      <Settings size={size} onChangeValue={handleChangeSize} />
+    );
   } else if (isLoading) {
     contentComponent = <Loading />;
   } else {
-    contentComponent = <Content title={title} body={summary} fontSize={size} />;
+    console.log("set content");
+    contentComponent = (
+      <Content title={title} body={summary} fontSize={fontSize(size)} />
+    );
   }
 
   return (
@@ -99,7 +126,7 @@ function App() {
         {contentComponent}
         <Footer
           sentences={sentences}
-          onChangeValue={handleChange}
+          onChangeValue={handleChangeSentences}
           shouldDisplay={isSettings || isLoading}
         />
       </ThemeProvider>

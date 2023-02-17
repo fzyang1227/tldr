@@ -3,25 +3,10 @@ import { ThemeContext } from "styled-components";
 import styled from "styled-components";
 import "./content.css";
 
-const Content = (props: { title: string; body: string; fontSize: string }) => {
+const Content = (props: { title: string; body: string; fontSize: number }) => {
   const theme = useContext(ThemeContext);
 
-  let fontSize = "12px";
-  switch (props.fontSize) {
-    case "small":
-      fontSize = "8px";
-      break;
-    case "medium":
-      fontSize = "12px";
-      break;
-    case "large":
-      fontSize = "16px";
-      break;
-    case "extra-large":
-      fontSize = "20px";
-      break;
-  }
-
+  console.log(props.fontSize);
   const All = styled.div`
     color: ${theme.primaryText};
     background-color: ${theme.bodyColor};
@@ -29,7 +14,7 @@ const Content = (props: { title: string; body: string; fontSize: string }) => {
     min-height: 390px;
     max-height: 390px;
     overflow-y: scroll;
-    font-size: ${fontSize};
+    font-size: ${props.fontSize}px;
   `;
 
   return (
