@@ -7,6 +7,7 @@ import * as assignIn from "lodash.assignin";
 let summary = "";
 
 const API_URL = "https://api.smmry.com";
+const api_keys = ["FCFD97EE01", "2CD97EA006 "];
 
 const buildQuery = (query: any) =>
   Object.keys(query).reduce((acc, val) => {

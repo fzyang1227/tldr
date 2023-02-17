@@ -24,7 +24,6 @@ function App() {
     setSize(e.target.value);
     setShouldSummarize(true);
     setIsLoading(true);
-    callSummarize(); //test removing this
   };
 
   const handleClickSettings = () => {
@@ -38,14 +37,15 @@ function App() {
   const callSummarize = () => {
     getCurrentTab().then((tab) => {
       let url = tab.url as string;
-      chrome.storage.local.get([url]).then((result) => {
+      let key = `${url} ${sentences}`;
+      chrome.storage.local.get([key]).then((result) => {
         if (
-          typeof result[url] !== "undefined" &&
-          result[url][1] === sentences
+          typeof result[key] !== "undefined" &&
+          parseInt(result[key][1], 10) === +sentences
         ) {
           console.log("local storage!");
-          setTitle(result[url][0].sm_api_title);
-          setSummary(result[url][0].sm_api_content);
+          setTitle(result[key][0].sm_api_title);
+          setSummary(result[key][0].sm_api_content);
           setIsLoading(false);
         } else {
           messagesFromReactAppListener(url, sentences)
@@ -55,7 +55,7 @@ function App() {
               setTitle(title);
               setSummary(summary);
               chrome.storage.local.set({
-                [url]: [response.summary.data, sentences],
+                [key]: [response.summary.data, sentences],
               });
             })
             .then(() => {
