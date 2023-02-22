@@ -10,15 +10,15 @@ declare module "styled-components" {
 }
 
 export const lightTheme: DefaultTheme = {
-	headSelColor: "#EDCEA9",
-	bodyColor: "#FAEAD7",
-  boxColor: "#EDCEA950",
+  headSelColor: "#EDCEA9",
+  bodyColor: "#FAEAD7",
+  boxColor: "#EDCEA980",
   primaryText: "#072450",
 };
 
 export const darkTheme: DefaultTheme = {
-	headSelColor: "#7185A3",
-	bodyColor: "#072450",
+  headSelColor: "#7185A3",
+  bodyColor: "#072450",
   boxColor: "#7185A350",
   primaryText: "#F8EDD3",
 };

@@ -19,6 +19,17 @@ function App() {
   const [sentences, setSentences] = useState(4);
   const [isLoading, setIsLoading] = useState(false);
 
+  chrome.storage.local.get("darkMode").then((result) => {
+    console.log(result);
+    if (typeof result["darkMode"] !== "undefined") {
+      setDarkMode(result["darkMode"][0]);
+    } else {
+      chrome.storage.local.set({
+        darkMode: [isDarkMode],
+      });
+    }
+  });
+
   const handleChangeSentences = (e: any) => {
     setSentences(+e.target.value);
     setShouldSummarize(true);
@@ -37,6 +48,9 @@ function App() {
   };
 
   const handleClickDarkMode = () => {
+    chrome.storage.local.set({
+      darkMode: [!isDarkMode],
+    });
     setDarkMode(!isDarkMode);
   };
 
@@ -100,14 +114,17 @@ function App() {
 
   let contentComponent: JSX.Element;
   if (isSettings) {
-    console.log("set");
     contentComponent = (
-      <Settings size={size} onChangeValue={handleChangeSize} />
+      <Settings
+        size={size}
+        onChangeSize={handleChangeSize}
+        onChangeMode={handleClickDarkMode}
+        isDarkMode={isDarkMode}
+      />
     );
   } else if (isLoading) {
     contentComponent = <Loading />;
   } else {
-    console.log("set content");
     contentComponent = (
       <Content title={title} body={summary} fontSize={fontSize(size)} />
     );
@@ -117,7 +134,7 @@ function App() {
     <div className="full">
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <Header
-          title="tl;dr"
+          title={isSettings ? "settings" : "tl;dr"}
           isDark={isDarkMode}
           isSettings={isSettings}
           settingsClicked={handleClickSettings}

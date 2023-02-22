@@ -7,7 +7,6 @@ import StartButton from "./startButton";
 const Content = (props: { title: string; body: string; fontSize: number }) => {
   const theme = useContext(ThemeContext);
 
-  console.log(props.fontSize);
   const All = styled.div`
     color: ${theme.primaryText};
     background-color: ${theme.bodyColor};

@@ -15,7 +15,7 @@ const Footer = (props: {
     background-color: ${theme.bodyColor};
     font-weight: 300;
     font-size: 10px;
-    height: 60px;
+    height: 65px;
     text-align: center;
   `;
 

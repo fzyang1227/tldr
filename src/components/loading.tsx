@@ -20,7 +20,7 @@ const Loading = () => {
 
   return (
     <All className="container">
-      <PulseLoader />
+      <PulseLoader color={theme.primaryText} />
     </All>
   );
 };
