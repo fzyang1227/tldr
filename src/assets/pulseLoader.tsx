@@ -10,7 +10,6 @@ const pulse = createAnimation(
 
 function PulseLoader({
   loading = true,
-  color = "#072450",
   speedMultiplier = 1,
   cssOverride = {},
   size = 15,
@@ -24,7 +23,7 @@ function PulseLoader({
 
   const style = (i: number): React.CSSProperties => {
     return {
-      backgroundColor: color,
+      backgroundColor: additionalprops.color,
       width: cssValue(size),
       height: cssValue(size),
       margin: cssValue(margin),
