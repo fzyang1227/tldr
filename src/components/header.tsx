@@ -20,6 +20,7 @@ const Header = (props: {
     background-color: ${theme.headSelColor};
     font-weight: 600;
     font-size: 24px;
+    fontfamily: "Inter";
     height: 50px;
   `;
 
