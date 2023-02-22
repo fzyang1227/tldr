@@ -12,3 +12,8 @@ button.to-start {
 button.to-start:hover {
     box-shadow: none;
 }
+
+button.to-start:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
