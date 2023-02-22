@@ -3,7 +3,7 @@ import Content from "./components/content";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { lightTheme, darkTheme } from "./components/themes";
-import "./app.css";
+import "./App.css";
 import { ThemeProvider } from "styled-components";
 import messagesFromReactAppListener from "./chromeServices/DOMEvaluator";
 import Settings from "./components/settings";

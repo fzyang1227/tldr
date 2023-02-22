@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import styled from "styled-components";
 import "./content.css";
+import StartButton from "./startButton";
 
 const Content = (props: { title: string; body: string; fontSize: number }) => {
   const theme = useContext(ThemeContext);
@@ -19,6 +20,7 @@ const Content = (props: { title: string; body: string; fontSize: number }) => {
 
   return (
     <All className="container">
+      <StartButton/>
       <div className="px-1 content-wrap">
         <h1>{props.title}</h1>
       </div>
