@@ -11,6 +11,7 @@ import Loading from "./components/loading";
 
 function App() {
   const [isStarted, setStarted] = useState(false);
+  const [isFocusMode, setFocusMode] = useState(false);
   const [summary, setSummary] = useState("");
   const [title, setTitle] = useState("");
   const [shouldSummarize, setShouldSummarize] = useState(true);
@@ -26,6 +27,16 @@ function App() {
     } else {
       chrome.storage.local.set({
         darkMode: [isDarkMode],
+      });
+    }
+  });
+
+  chrome.storage.local.get("focusMode").then((result) => {
+    if (typeof result["focusMode"] !== "undefined") {
+      setFocusMode(result["focusMode"][0]);
+    } else {
+      chrome.storage.local.set({
+        focusMode: [isFocusMode],
       });
     }
   });
@@ -64,6 +75,14 @@ function App() {
       darkMode: [!isDarkMode],
     });
     setDarkMode(!isDarkMode);
+  };
+
+  const handleClickFocusMode = () => {
+    console.log("clicked focus mode");
+    chrome.storage.local.set({
+      focusMode: [!isFocusMode],
+    });
+    setFocusMode(!isFocusMode);
   };
 
   const handleClickStart = () => {
@@ -136,8 +155,10 @@ function App() {
       <Settings
         size={size}
         onChangeSize={handleChangeSize}
-        onChangeMode={handleClickDarkMode}
+        onChangeTheme={handleClickDarkMode}
+        onChangeMode={handleClickFocusMode}
         isDarkMode={isDarkMode}
+        isFocusMode={isFocusMode}
       />
     );
   } else if (isLoading) {

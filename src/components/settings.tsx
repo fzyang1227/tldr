@@ -8,14 +8,17 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
+import { ThemePicker } from "./themePicker";
 import { ModePicker } from "./modePicker";
 import { SizeDropdown } from "./sizeDropdown";
 
 const Settings = (props: {
   size: string;
   onChangeSize: (e: any) => void;
+  onChangeTheme: (e: any) => void;
   onChangeMode: (e: any) => void;
   isDarkMode: boolean;
+  isFocusMode: boolean;
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -62,9 +65,9 @@ const Settings = (props: {
                 fontSize: 20,
               }}
             >
-              mode
+              theme
             </FormLabel>
-            <ModePicker
+            <ThemePicker
               sx={{
                 position: "relative",
                 top: 5,
@@ -73,6 +76,16 @@ const Settings = (props: {
               checked={props.isDarkMode}
               onChange={props.onChangeMode}
               isDarkMode={props.isDarkMode}
+            />
+            <ModePicker
+              sx={{
+                position: "relative",
+                top: 5,
+                right: 4,
+              }}
+              checked={props.isFocusMode}
+              onChange={props.onChangeMode}
+              isFocusMode={props.isFocusMode}
             />
           </FormControl>
         </div>
