@@ -55,7 +55,9 @@ const Footer = (props: {
       </div>
     </Bot>
   ) : (
-    <Bot></Bot>
+    <Bot>
+      <div style={{ height: 48 }}></div>
+    </Bot>
   );
 
   return (

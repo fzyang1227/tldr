@@ -10,6 +10,7 @@ import Settings from "./components/settings";
 import Loading from "./components/loading";
 
 function App() {
+  const [isStarted, setStarted] = useState(false);
   const [summary, setSummary] = useState("");
   const [title, setTitle] = useState("");
   const [shouldSummarize, setShouldSummarize] = useState(true);
@@ -20,7 +21,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   chrome.storage.local.get("darkMode").then((result) => {
-    console.log(result);
     if (typeof result["darkMode"] !== "undefined") {
       setDarkMode(result["darkMode"][0]);
     } else {
@@ -28,6 +28,18 @@ function App() {
         darkMode: [isDarkMode],
       });
     }
+  });
+
+  let url = "";
+
+  getCurrentTab().then((tab) => {
+    url = tab.url as string;
+    let key = `${url} isStarted`;
+    chrome.storage.local.get([key]).then((result) => {
+      if (result[key][0]) {
+        setStarted(true);
+      }
+    });
   });
 
   const handleChangeSentences = (e: any) => {
@@ -54,6 +66,13 @@ function App() {
     setDarkMode(!isDarkMode);
   };
 
+  const handleClickStart = () => {
+    setStarted(true);
+    chrome.storage.local.set({
+      [`${url} isStarted`]: [true],
+    });
+  };
+
   const fontSize = (size: string) => {
     switch (size) {
       case "small":
@@ -71,14 +90,13 @@ function App() {
 
   const callSummarize = () => {
     getCurrentTab().then((tab) => {
-      let url = tab.url as string;
+      url = tab.url as string;
       let key = `${url} ${sentences}`;
       chrome.storage.local.get([key]).then((result) => {
         if (
           typeof result[key] !== "undefined" &&
           parseInt(result[key][1], 10) === sentences
         ) {
-          //console.log("local storage!");
           setTitle(result[key][0].sm_api_title);
           setSummary(result[key][0].sm_api_content);
           setIsLoading(false);
@@ -126,7 +144,13 @@ function App() {
     contentComponent = <Loading />;
   } else {
     contentComponent = (
-      <Content title={title} body={summary} fontSize={fontSize(size)} />
+      <Content
+        title={title}
+        body={summary}
+        fontSize={fontSize(size)}
+        isStarted={isStarted}
+        onClick={handleClickStart}
+      />
     );
   }
 

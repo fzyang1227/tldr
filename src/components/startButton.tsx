@@ -1,21 +1,22 @@
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import styled from "styled-components";
-import "./startButton.css"
+import "./startButton.css";
 
-const StartButton = () => {
-    const theme = useContext(ThemeContext);
+const StartButton = (props: { onClick: (e: any) => void }) => {
+  const theme = useContext(ThemeContext);
 
-    const Button = styled.button`
+  const Button = styled.button`
     color: ${theme.primaryText};
     background-color: ${theme.headSelColor};
     text-align: center;
-    `;
+  `;
 
-    return (
-    <Button className="btn rounded-pill to-start">tl;dr  it!</Button>
-);
+  return (
+    <Button onClick={props.onClick} className="btn rounded-pill to-start">
+      tl;dr it!
+    </Button>
+  );
 };
 
 export default StartButton;
-

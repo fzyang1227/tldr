@@ -94,9 +94,10 @@ const Settings = (props: {
       </Box>
       <Box
         style={{
-          minHeight: 290,
-          maxHeight: 290,
+          minHeight: 288,
+          maxHeight: 288,
           backgroundColor: theme.bodyColor,
+          fontWeight: "bold",
         }}
       >
         <FormControl
@@ -114,7 +115,7 @@ const Settings = (props: {
           </FormLabel>
           <Typography
             color={theme.primaryText}
-            sx={{ maxWidth: 340, fontStyle: "bold" }}
+            sx={{ maxWidth: 340, fontWeight: "bold" }}
           >
             Hi! We are a team of three from Northeastern participating in
             Hackbeanpot. We are devs and are working on stuff sample text for a
@@ -126,12 +127,13 @@ const Settings = (props: {
             width: 260,
             height: 40,
             position: "relative",
-            top: 10,
+            top: 20,
             left: 45,
             fontWeight: "bold",
             backgroundColor: theme.boxColor,
             color: theme.primaryText,
             boxShadow: "none",
+            textTransform: "lowercase",
           }}
         >
           to summary api website
@@ -141,12 +143,13 @@ const Settings = (props: {
             width: 260,
             height: 40,
             position: "relative",
-            top: 20,
+            top: 30,
             left: 45,
             fontWeight: "bold",
             backgroundColor: theme.boxColor,
             color: theme.primaryText,
             boxShadow: "none",
+            textTransform: "lowercase",
           }}
         >
           submit feedback, bugs and more

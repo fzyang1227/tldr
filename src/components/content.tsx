@@ -4,7 +4,13 @@ import styled from "styled-components";
 import "./content.css";
 import StartButton from "./startButton";
 
-const Content = (props: { title: string; body: string; fontSize: number }) => {
+const Content = (props: {
+  title: string;
+  body: string;
+  fontSize: number;
+  isStarted: boolean;
+  onClick: (e: any) => void;
+}) => {
   const theme = useContext(ThemeContext);
 
   const All = styled.div`
@@ -19,11 +25,18 @@ const Content = (props: { title: string; body: string; fontSize: number }) => {
 
   return (
     <All className="container">
-      <StartButton/>
-      <div className="px-1 content-wrap">
-        <h1>{props.title}</h1>
-      </div>
-      <div className="px-1 content-wrap">{props.body}</div>
+      {props.isStarted ? (
+        <>
+          <div className="px-1 content-wrap">
+            <h1>{props.title}</h1>
+          </div>
+          <div className="px-1 content-wrap">{props.body}</div>
+        </>
+      ) : (
+        <div style={{ position: "relative", top: 150, left: 70, width: 200 }}>
+          <StartButton onClick={props.onClick} />
+        </div>
+      )}
     </All>
   );
 };
