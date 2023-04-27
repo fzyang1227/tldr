@@ -16,6 +16,6 @@ button.to-start:hover {
 }
 
 button.to-start:focus {
-  outline: none;
-  box-shadow: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
