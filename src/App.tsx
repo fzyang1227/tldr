@@ -33,6 +33,7 @@ function App() {
 
   chrome.storage.local.get("focusMode").then((result) => {
     if (typeof result["focusMode"] !== "undefined") {
+      console.log("focus mode is " + result["focusMode"][0]);
       setFocusMode(result["focusMode"][0]);
     } else {
       chrome.storage.local.set({
@@ -78,7 +79,6 @@ function App() {
   };
 
   const handleClickFocusMode = () => {
-    console.log("clicked focus mode");
     chrome.storage.local.set({
       focusMode: [!isFocusMode],
     });
@@ -87,6 +87,7 @@ function App() {
 
   const handleClickStart = () => {
     setStarted(true);
+    setIsLoading(true);
     chrome.storage.local.set({
       [`${url} isStarted`]: [true],
     });
@@ -122,6 +123,7 @@ function App() {
         } else {
           messagesFromReactAppListener(url, sentences)
             .then((response: any) => {
+              console.log(response);
               const title = response.summary.data.sm_api_title;
               const summary = response.summary.data.sm_api_content;
               setTitle(title);
@@ -129,6 +131,10 @@ function App() {
               chrome.storage.local.set({
                 [key]: [response.summary.data, sentences],
               });
+            })
+            .catch((error: any) => {
+              // retry if key is used up
+              callSummarize();
             })
             .then(() => {
               setIsLoading(false);
@@ -168,6 +174,7 @@ function App() {
       <Content
         title={title}
         body={summary}
+        isFocusMode={isFocusMode}
         fontSize={fontSize(size)}
         isStarted={isStarted}
         onClick={handleClickStart}

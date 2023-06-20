@@ -37,7 +37,7 @@ const Settings = (props: {
             flexWrap: "wrap",
             position: "relative",
             top: 10,
-            left: 20,
+            left: 10,
           }}
         >
           <FormControl focused={false}>
@@ -47,7 +47,7 @@ const Settings = (props: {
                 fontWeight: "bold",
                 fontSize: 20,
                 position: "relative",
-                left: 40,
+                left: 25,
               }}
             >
               font size
@@ -57,9 +57,11 @@ const Settings = (props: {
               onChangeValue={props.onChangeSize}
             />
           </FormControl>
-          <FormControl sx={{ position: "relative", left: 70 }} focused={false}>
+          <FormControl sx={{ position: "relative", left: 40 }} focused={false}>
             <FormLabel
               sx={{
+                position: "relative",
+                right: 20,
                 color: theme.primaryText,
                 fontWeight: "bold",
                 fontSize: 20,
@@ -71,21 +73,33 @@ const Settings = (props: {
               sx={{
                 position: "relative",
                 top: 5,
-                right: 4,
+                right: 20,
               }}
               checked={props.isDarkMode}
-              onChange={props.onChangeMode}
+              onChange={props.onChangeTheme}
               isDarkMode={props.isDarkMode}
             />
+            <FormLabel
+              sx={{
+                position: "relative",
+                left: 65,
+                bottom: 63,
+                color: theme.primaryText,
+                fontWeight: "bold",
+                fontSize: 20,
+              }}
+            >
+              focus
+            </FormLabel>
             <ModePicker
               sx={{
                 position: "relative",
-                top: 5,
-                right: 4,
+                bottom: 58,
+                left: 60,
               }}
               checked={props.isFocusMode}
+              isDarkMode={props.isDarkMode}
               onChange={props.onChangeMode}
-              isFocusMode={props.isFocusMode}
             />
           </FormControl>
         </div>
