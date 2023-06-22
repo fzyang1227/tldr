@@ -44,7 +44,7 @@ const Header = (props: {
             </span>
             <div className="p-2 logo-title">{props.title}</div>
           </div>
-          <div className="text-end align-middle">
+          <div style={{ paddingLeft: 20 }} className="text-end align-middle">
             <Button onClick={props.settingsClicked}>{rightIcon}</Button>
           </div>
         </div>

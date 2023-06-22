@@ -9,12 +9,13 @@ export const ModePicker = styled(Switch)((props: { isDarkMode: boolean }) => ({
     padding: 0,
     transform: "translateX(6px)",
     "&.Mui-checked": {
-      color: "#072450",
+      color: "#F8EDD3",
       transform: "translateX(22px)",
       "& .MuiSwitch-thumb:before": {
-        backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-          "#072450"
-        )}" d="M4.2 2.5l-.7 1.8-1.8.7 1.8.7.7 1.8.6-1.8L6.7 5l-1.9-.7-.6-1.8zm15 8.3a6.7 6.7 0 11-6.6-6.6 5.8 5.8 0 006.6 6.6z"/></svg>')`,
+        left: 1,
+        backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 25 25"><path fill="${encodeURIComponent(
+          props.isDarkMode ? "#072450" : "#F8EDD3"
+        )}" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>')`,
       },
       "& + .MuiSwitch-track": {
         opacity: 1,
@@ -31,13 +32,13 @@ export const ModePicker = styled(Switch)((props: { isDarkMode: boolean }) => ({
       position: "absolute",
       width: "100%",
       height: "100%",
-      left: 0,
+      left: 1,
       top: 0,
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-        "#F8EDD3"
-      )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 25 25"><path fill="${encodeURIComponent(
+        props.isDarkMode ? "#072450" : "#F8EDD3"
+      )}" d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78 3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>')`,
     },
   },
   "& .MuiSwitch-track": {
@@ -46,3 +47,34 @@ export const ModePicker = styled(Switch)((props: { isDarkMode: boolean }) => ({
     borderRadius: 20 / 2,
   },
 }));
+
+// export default function ModePicker(props: {
+//   sx: any;
+//   isFocusMode: boolean;
+//   onChangeMode: (e: any) => void;
+// }) {
+//   const [focus, setFocus] = React.useState<boolean>(false);
+//   return (
+//     <Switch
+//       sx={props.sx}
+//       color={focus ? "primary" : "danger"}
+//       slotProps={{ input: { "aria-label": "focus mode" } }}
+//       endDecorator={
+//         focus ? (
+//           <Visibility
+//             sx={{ color: props.isFocusMode ? "text.tertiary" : "danger.600" }}
+//           />
+//         ) : (
+//           <VisibilityOff
+//             sx={{ color: props.isFocusMode ? "primary.500" : "text.tertiary" }}
+//           />
+//         )
+//       }
+//       checked={props.isFocusMode}
+//       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+//         setFocus(event.target.checked);
+//         props.onChangeMode(event);
+//       }}
+//     />
+//   );
+// }

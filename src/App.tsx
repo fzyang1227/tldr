@@ -3,13 +3,15 @@ import Content from "./components/content";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { lightTheme, darkTheme } from "./components/themes";
-import "./app.css";
+import "./App.css";
 import { ThemeProvider } from "styled-components";
 import messagesFromReactAppListener from "./chromeServices/DOMEvaluator";
 import Settings from "./components/settings";
 import Loading from "./components/loading";
 
 function App() {
+  const [isStarted, setStarted] = useState(false);
+  const [isFocusMode, setFocusMode] = useState(false);
   const [summary, setSummary] = useState("");
   const [title, setTitle] = useState("");
   const [shouldSummarize, setShouldSummarize] = useState(true);
@@ -20,7 +22,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   chrome.storage.local.get("darkMode").then((result) => {
-    console.log(result);
     if (typeof result["darkMode"] !== "undefined") {
       setDarkMode(result["darkMode"][0]);
     } else {
@@ -28,6 +29,29 @@ function App() {
         darkMode: [isDarkMode],
       });
     }
+  });
+
+  chrome.storage.local.get("focusMode").then((result) => {
+    if (typeof result["focusMode"] !== "undefined") {
+      console.log("focus mode is " + result["focusMode"][0]);
+      setFocusMode(result["focusMode"][0]);
+    } else {
+      chrome.storage.local.set({
+        focusMode: [isFocusMode],
+      });
+    }
+  });
+
+  let url = "";
+
+  getCurrentTab().then((tab) => {
+    url = tab.url as string;
+    let key = `${url} isStarted`;
+    chrome.storage.local.get([key]).then((result) => {
+      if (result[key][0]) {
+        setStarted(true);
+      }
+    });
   });
 
   const handleChangeSentences = (e: any) => {
@@ -54,6 +78,21 @@ function App() {
     setDarkMode(!isDarkMode);
   };
 
+  const handleClickFocusMode = () => {
+    chrome.storage.local.set({
+      focusMode: [!isFocusMode],
+    });
+    setFocusMode(!isFocusMode);
+  };
+
+  const handleClickStart = () => {
+    setStarted(true);
+    setIsLoading(true);
+    chrome.storage.local.set({
+      [`${url} isStarted`]: [true],
+    });
+  };
+
   const fontSize = (size: string) => {
     switch (size) {
       case "small":
@@ -71,20 +110,20 @@ function App() {
 
   const callSummarize = () => {
     getCurrentTab().then((tab) => {
-      let url = tab.url as string;
+      url = tab.url as string;
       let key = `${url} ${sentences}`;
       chrome.storage.local.get([key]).then((result) => {
         if (
           typeof result[key] !== "undefined" &&
           parseInt(result[key][1], 10) === sentences
         ) {
-          //console.log("local storage!");
           setTitle(result[key][0].sm_api_title);
           setSummary(result[key][0].sm_api_content);
           setIsLoading(false);
         } else {
           messagesFromReactAppListener(url, sentences)
             .then((response: any) => {
+              console.log(response);
               const title = response.summary.data.sm_api_title;
               const summary = response.summary.data.sm_api_content;
               setTitle(title);
@@ -92,6 +131,10 @@ function App() {
               chrome.storage.local.set({
                 [key]: [response.summary.data, sentences],
               });
+            })
+            .catch((error: any) => {
+              // retry if key is used up
+              callSummarize();
             })
             .then(() => {
               setIsLoading(false);
@@ -118,15 +161,24 @@ function App() {
       <Settings
         size={size}
         onChangeSize={handleChangeSize}
-        onChangeMode={handleClickDarkMode}
+        onChangeTheme={handleClickDarkMode}
+        onChangeMode={handleClickFocusMode}
         isDarkMode={isDarkMode}
+        isFocusMode={isFocusMode}
       />
     );
   } else if (isLoading) {
     contentComponent = <Loading />;
   } else {
     contentComponent = (
-      <Content title={title} body={summary} fontSize={fontSize(size)} />
+      <Content
+        title={title}
+        body={summary}
+        isFocusMode={isFocusMode}
+        fontSize={fontSize(size)}
+        isStarted={isStarted}
+        onClick={handleClickStart}
+      />
     );
   }
 

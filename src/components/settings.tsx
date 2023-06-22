@@ -8,14 +8,17 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
+import { ThemePicker } from "./themePicker";
 import { ModePicker } from "./modePicker";
 import { SizeDropdown } from "./sizeDropdown";
 
 const Settings = (props: {
   size: string;
   onChangeSize: (e: any) => void;
+  onChangeTheme: (e: any) => void;
   onChangeMode: (e: any) => void;
   isDarkMode: boolean;
+  isFocusMode: boolean;
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -34,7 +37,7 @@ const Settings = (props: {
             flexWrap: "wrap",
             position: "relative",
             top: 10,
-            left: 20,
+            left: 10,
           }}
         >
           <FormControl focused={false}>
@@ -44,7 +47,7 @@ const Settings = (props: {
                 fontWeight: "bold",
                 fontSize: 20,
                 position: "relative",
-                left: 40,
+                left: 25,
               }}
             >
               font size
@@ -54,25 +57,49 @@ const Settings = (props: {
               onChangeValue={props.onChangeSize}
             />
           </FormControl>
-          <FormControl sx={{ position: "relative", left: 70 }} focused={false}>
+          <FormControl sx={{ position: "relative", left: 40 }} focused={false}>
             <FormLabel
               sx={{
+                position: "relative",
+                right: 20,
                 color: theme.primaryText,
                 fontWeight: "bold",
                 fontSize: 20,
               }}
             >
-              mode
+              theme
+            </FormLabel>
+            <ThemePicker
+              sx={{
+                position: "relative",
+                top: 5,
+                right: 20,
+              }}
+              checked={props.isDarkMode}
+              onChange={props.onChangeTheme}
+              isDarkMode={props.isDarkMode}
+            />
+            <FormLabel
+              sx={{
+                position: "relative",
+                left: 65,
+                bottom: 63,
+                color: theme.primaryText,
+                fontWeight: "bold",
+                fontSize: 20,
+              }}
+            >
+              focus
             </FormLabel>
             <ModePicker
               sx={{
                 position: "relative",
-                top: 5,
-                right: 4,
+                bottom: 58,
+                left: 60,
               }}
-              checked={props.isDarkMode}
-              onChange={props.onChangeMode}
+              checked={props.isFocusMode}
               isDarkMode={props.isDarkMode}
+              onChange={props.onChangeMode}
             />
           </FormControl>
         </div>
@@ -94,9 +121,10 @@ const Settings = (props: {
       </Box>
       <Box
         style={{
-          minHeight: 290,
-          maxHeight: 290,
+          minHeight: 288,
+          maxHeight: 288,
           backgroundColor: theme.bodyColor,
+          fontWeight: "bold",
         }}
       >
         <FormControl
@@ -114,7 +142,7 @@ const Settings = (props: {
           </FormLabel>
           <Typography
             color={theme.primaryText}
-            sx={{ maxWidth: 340, fontStyle: "bold" }}
+            sx={{ maxWidth: 340, fontWeight: "bold" }}
           >
             Hi! We are a team of three from Northeastern participating in
             Hackbeanpot. We are devs and are working on stuff sample text for a
@@ -126,12 +154,13 @@ const Settings = (props: {
             width: 260,
             height: 40,
             position: "relative",
-            top: 10,
+            top: 20,
             left: 45,
             fontWeight: "bold",
             backgroundColor: theme.boxColor,
             color: theme.primaryText,
             boxShadow: "none",
+            textTransform: "lowercase",
           }}
         >
           to summary api website
@@ -141,12 +170,13 @@ const Settings = (props: {
             width: 260,
             height: 40,
             position: "relative",
-            top: 20,
+            top: 30,
             left: 45,
             fontWeight: "bold",
             backgroundColor: theme.boxColor,
             color: theme.primaryText,
             boxShadow: "none",
+            textTransform: "lowercase",
           }}
         >
           submit feedback, bugs and more
